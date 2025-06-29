@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>わかくさ掲示板</title>
+  <style>
+    /* シンプルなデザイン */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .login-form, .board {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    input[type="password"], input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .comments {
+      margin-top: 20px;
+    }
+
+    .comment {
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #eee;
+    }
+
+    .comment .name {
+      font-weight: bold;
+    }
+
+    h2 {
+      color: #4CAF50;
+    }
+
+    #errorMessage {
+      color: red;
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- ログインフォーム -->
+    <div class="login-form" id="loginForm">
+      <h2>わかくさ掲示板 - ログイン</h2>
+      <input type="password" id="password" placeholder="パスワードを入力" />
+      <button onclick="login()">ログイン</button>
+      <p id="errorMessage">パスワードが間違っています。</p>
+    </div>
+
+    <!-- 掲示板 -->
+    <div class="board" id="board" style="display: none;">
+      <h2>わかくさ掲示板</h2>
+      <div>
+        <input type="text" id="name" placeholder="名前を入力" />
+        <textarea id="comment" placeholder="コメントを入力"></textarea>
+        <button onclick="postComment()">コメントを投稿</button>
+      </div>
+      <div class="comments" id="comments"></div>
+    </div>
+  </div>
+
+  <script>
+    // 簡易ログイン処理
+    const correctPassword = 'wakakusa'; // パスワードを「wakakusa」に設定
+
+    function login() {
+      const enteredPassword = document.getElementById('password').value;
+      if (enteredPassword === correctPassword) {
+        // ログイン成功
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('board').style.display = 'block';
+      } else {
+        // パスワードが間違っている場合
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+    }
+
+    // コメント投稿処理
+    function postComment() {
+      const name = document.getElementById('name').value;
+      const comment = document.getElementById('comment').value;
+
+      if (name && comment) {
+        const commentSection = document.getElementById('comments');
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment');
+        newComment.innerHTML = `<span class="name">${name}</span>: ${comment}`;
+        commentSection.appendChild(newComment);
+        document.getElementById('name').value = '';
+        document.getElementById('comment').value = '';
+      } else {
+        alert('名前とコメントを入力してください');
+      }
+    }
+  </script>
+
+</body>
+</html>

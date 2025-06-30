@@ -182,6 +182,8 @@
         setupRealtime(); // リアルタイム更新の設定
       } else {
         // パスワードが間違っている場合
+        console.error('ログイン失敗：入力されたパスワードが間違っています');
+        alert('ログインに失敗しました。パスワードが間違っています');
         document.getElementById('errorMessage').style.display = 'block';
       }
     }
@@ -200,6 +202,7 @@
           ]);
 
         if (error) {
+          console.error('コメント投稿エラー:', error.message);
           alert('コメントの投稿に失敗しました');
         } else {
           // コメントを追加した後に、コメントリストを更新
@@ -220,6 +223,7 @@
         .order('created_at', { ascending: false });
 
       if (error) {
+        console.error('コメントの読み込みエラー:', error.message);
         alert('コメントの読み込みに失敗しました');
       } else {
         const commentSection = document.getElementById('comments');
@@ -238,12 +242,4 @@
     function setupRealtime() {
       supabase
         .from('comments')
-        .on('INSERT', payload => {
-          loadComments(); // コメントが追加される度に再読み込み
-        })
-        .subscribe();
-    }
-  </script>
-
-</body>
-</html>
+        .on('INSERT', payload =>
